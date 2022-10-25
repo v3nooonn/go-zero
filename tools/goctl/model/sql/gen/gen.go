@@ -126,6 +126,7 @@ func (g *defaultGenerator) StartFromInformationSchema(tables map[string]*model.T
 		if err != nil {
 			return err
 		}
+		table.Name = stringx.From(strings.Join(strings.Split(table.Name.Source(), "_")[1:], "_"))
 
 		code, err := g.genModel(*table, withCache)
 		if err != nil {
@@ -160,8 +161,7 @@ func (g *defaultGenerator) createFile(modelList map[string]*codeTuple) error {
 
 	for tableName, codes := range modelList {
 		tn := stringx.From(tableName)
-		modelFilename, err := format.FileNamingFormat(g.cfg.NamingFormat,
-			fmt.Sprintf("%s_model", tn.Source()))
+		modelFilename, err := format.FileNamingFormat(g.cfg.NamingFormat, tn.Source())
 		if err != nil {
 			return err
 		}
