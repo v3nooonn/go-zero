@@ -126,7 +126,6 @@ func (g *defaultGenerator) StartFromInformationSchema(tables map[string]*model.T
 		if err != nil {
 			return err
 		}
-		table.Name = stringx.From(strings.Join(strings.Split(table.Name.Source(), "_")[1:], "_"))
 
 		code, err := g.genModel(*table, withCache)
 		if err != nil {
