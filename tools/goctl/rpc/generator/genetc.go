@@ -22,6 +22,7 @@ var etcTemplate string
 func (g *Generator) GenEtc(ctx DirContext, _ parser.Proto, cfg *conf.Config) error {
 	dir := ctx.GetEtc()
 	etcFilename, err := format.FileNamingFormat(cfg.NamingFormat, ctx.GetServiceName().Source())
+	etcFilename = etcFilename + "-rpc"
 	if err != nil {
 		return err
 	}
