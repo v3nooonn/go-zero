@@ -33,6 +33,7 @@ func genLogic(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) error 
 func genLogicByRoute(dir, rootPkg string, cfg *config.Config, group spec.Group, route spec.Route) error {
 	logic := getLogicName(route)
 	goFile, err := format.FileNamingFormat(cfg.NamingFormat, logic)
+	goFile = strings.TrimSuffix(strings.ToLower(goFile), "logic")
 	if err != nil {
 		return err
 	}

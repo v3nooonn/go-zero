@@ -63,6 +63,7 @@ func doGenToFile(dir, handler string, cfg *config.Config, group spec.Group,
 	route spec.Route, handleObj handlerInfo,
 ) error {
 	filename, err := format.FileNamingFormat(cfg.NamingFormat, handler)
+	filename = strings.TrimSuffix(filename, "handler")
 	if err != nil {
 		return err
 	}

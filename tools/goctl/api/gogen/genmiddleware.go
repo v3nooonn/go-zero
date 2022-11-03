@@ -15,7 +15,7 @@ var middlewareImplementCode string
 func genMiddleware(dir string, cfg *config.Config, api *spec.ApiSpec) error {
 	middlewares := getMiddleware(api)
 	for _, item := range middlewares {
-		middlewareFilename := strings.TrimSuffix(strings.ToLower(item), "middleware") + "_middleware"
+		middlewareFilename := strings.TrimSuffix(strings.ToLower(item), "middleware")
 		filename, err := format.FileNamingFormat(cfg.NamingFormat, middlewareFilename)
 		if err != nil {
 			return err
