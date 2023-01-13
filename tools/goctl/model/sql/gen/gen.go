@@ -259,13 +259,14 @@ func (g *defaultGenerator) genModel(in parser.Table, withCache bool) (string, er
 		return "", fmt.Errorf("table %s: missing primary key", in.Name.Source())
 	}
 
-	primaryKey, uniqueKey := genCacheKeys(in)
+	//primaryKey, uniqueKey := genCacheKeys(in)
+	primaryKey, _ := genCacheKeys(in)
 
 	var table Table
 	table.Table = in
 	table.PrimaryCacheKey = primaryKey
-	table.UniqueCacheKey = uniqueKey
-	table.ContainsUniqueCacheKey = len(uniqueKey) > 0
+	//table.UniqueCacheKey = uniqueKey
+	//table.ContainsUniqueCacheKey = len(uniqueKey) > 0
 	table.ignoreColumns = g.ignoreColumns
 
 	importsCode, err := genImports(table, withCache, in.ContainsTime())
