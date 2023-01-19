@@ -81,7 +81,7 @@ func genCacheKey(db, table stringx.String, in []*parser.Field) Key {
 		dataRightJoin = append(dataRightJoin, "data."+each.Name.ToCamel())
 		fieldNameJoin = append(fieldNameJoin, each.Name.Source())
 	}
-	varLeftJoin = append(varLeftJoin, "prefix")
+	varLeftJoin = append(varLeftJoin, "fmt")
 	keyLeftJoin = append(keyLeftJoin, "key")
 
 	varLeft = util.SafeString(varLeftJoin.Camel().With("").Untitle())

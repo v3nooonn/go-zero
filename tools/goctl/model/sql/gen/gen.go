@@ -290,12 +290,13 @@ func (g *defaultGenerator) genModel(in parser.Table, withCache bool) (string, er
 		return "", err
 	}
 
-	ret, err := genFindOneByField(table, withCache, g.isPostgreSql)
-	if err != nil {
-		return "", err
-	}
+	//ret, err := genFindOneByField(table, withCache, g.isPostgreSql)
+	//if err != nil {
+	//	return "", err
+	//}
 
-	findCode = append(findCode, findOneCode, ret.findOneMethod)
+	//findCode = append(findCode, findOneCode, ret.findOneMethod)
+	findCode = append(findCode, findOneCode)
 	updateCode, updateCodeMethod, err := genUpdate(table, withCache, g.isPostgreSql)
 	if err != nil {
 		return "", err
@@ -307,8 +308,8 @@ func (g *defaultGenerator) genModel(in parser.Table, withCache bool) (string, er
 	}
 
 	var list []string
-	list = append(list, insertCodeMethod, findOneCodeMethod, ret.findOneInterfaceMethod,
-		updateCodeMethod, deleteCodeMethod)
+	list = append(list, insertCodeMethod, updateCodeMethod,
+		findOneCodeMethod, deleteCodeMethod) // ret.findOneInterfaceMethod,
 	typesCode, err := genTypes(table, strings.Join(modelutil.TrimStringSlice(list), pathx.NL), withCache)
 	if err != nil {
 		return "", err
@@ -333,8 +334,8 @@ func (g *defaultGenerator) genModel(in parser.Table, withCache bool) (string, er
 		findCode:    findCode,
 		updateCode:  updateCode,
 		deleteCode:  deleteCode,
-		cacheExtra:  ret.cacheExtra,
 		tableName:   tableName,
+		//cacheExtra:  ret.cacheExtra,
 	}
 
 	output, err := g.executeModel(table, code)
