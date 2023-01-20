@@ -24,6 +24,7 @@ func genFindOne(table Table, withCache, postgreSql bool) (string, string, error)
 			"lowerStartCamelPrimaryKey": util.EscapeGolangKeyword(stringx.From(table.PrimaryKey.Name.ToCamel()).Untitle()),
 			"dataType":                  table.PrimaryKey.DataType,
 			"cacheKey":                  table.PrimaryCacheKey.KeyExpression,
+			"cacheKeyFmt":               table.PrimaryCacheKey.VarLeft,
 			"cacheKeyVariable":          table.PrimaryCacheKey.KeyLeft,
 			"postgreSql":                postgreSql,
 			"data":                      table,
