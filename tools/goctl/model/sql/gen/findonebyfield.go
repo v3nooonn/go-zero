@@ -33,6 +33,8 @@ func genFindOneByField(table Table, withCache, postgreSql bool) (*findOneCode, e
 			"upperField":                key.FieldNameJoin.Camel().With("").Source(),
 			"in":                        in,
 			"withCache":                 withCache,
+			"primaryKey":                table.PrimaryCacheKey.VarLeft,
+			"cacheKeyFmt":               key.VarLeft,
 			"cacheKey":                  key.KeyExpression,
 			"cacheKeyVariable":          key.KeyLeft,
 			"lowerStartCamelObject":     stringx.From(camelTableName).Untitle(),

@@ -17,10 +17,12 @@ func genInsert(table Table, withCache, postgreSql bool) (string, string, error) 
 	keyVariableSet := collection.NewSet()
 	keySet.AddStr(table.PrimaryCacheKey.DataKeyExpression)
 	keyVariableSet.AddStr(table.PrimaryCacheKey.KeyLeft)
-	for _, key := range table.UniqueCacheKey {
-		keySet.AddStr(key.DataKeyExpression)
-		keyVariableSet.AddStr(key.KeyLeft)
-	}
+
+	//for _, key := range table.UniqueCacheKey {
+	//	keySet.AddStr(key.DataKeyExpression)
+	//	keyVariableSet.AddStr(key.KeyLeft)
+	//}
+
 	keys := keySet.KeysStr()
 	sort.Strings(keys)
 	keyVars := keyVariableSet.KeysStr()

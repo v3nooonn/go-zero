@@ -42,6 +42,7 @@ func genDelete(table Table, withCache, postgreSql bool) (string, string, error) 
 			"keys":                      strings.Join(keys, "\n"),
 			"originalPrimaryKey":        wrapWithRawString(table.PrimaryKey.Name.Source(), postgreSql),
 			"keyValues":                 strings.Join(keyVars, ", "),
+			"keysList":                  keyVars,
 			"postgreSql":                postgreSql,
 			"data":                      table,
 		})

@@ -259,14 +259,14 @@ func (g *defaultGenerator) genModel(in parser.Table, withCache bool) (string, er
 		return "", fmt.Errorf("table %s: missing primary key", in.Name.Source())
 	}
 
-	//primaryKey, uniqueKey := genCacheKeys(in)
-	primaryKey, _ := genCacheKeys(in)
+	primaryKey, uniqueKey := genCacheKeys(in)
+	//primaryKey, _ := genCacheKeys(in)
 
 	var table Table
 	table.Table = in
 	table.PrimaryCacheKey = primaryKey
-	//table.UniqueCacheKey = uniqueKey
-	//table.ContainsUniqueCacheKey = len(uniqueKey) > 0
+	table.UniqueCacheKey = uniqueKey
+	table.ContainsUniqueCacheKey = len(uniqueKey) > 0
 	table.ignoreColumns = g.ignoreColumns
 
 	importsCode, err := genImports(table, withCache, in.ContainsTime())
@@ -290,13 +290,13 @@ func (g *defaultGenerator) genModel(in parser.Table, withCache bool) (string, er
 		return "", err
 	}
 
-	//ret, err := genFindOneByField(table, withCache, g.isPostgreSql)
-	//if err != nil {
-	//	return "", err
-	//}
+	ret, err := genFindOneByField(table, withCache, g.isPostgreSql)
+	if err != nil {
+		return "", err
+	}
 
-	//findCode = append(findCode, findOneCode, ret.findOneMethod)
-	findCode = append(findCode, findOneCode)
+	findCode = append(findCode, findOneCode, ret.findOneMethod)
+
 	updateCode, updateCodeMethod, err := genUpdate(table, withCache, g.isPostgreSql)
 	if err != nil {
 		return "", err
@@ -309,7 +309,7 @@ func (g *defaultGenerator) genModel(in parser.Table, withCache bool) (string, er
 
 	var list []string
 	list = append(list, insertCodeMethod, updateCodeMethod,
-		findOneCodeMethod, deleteCodeMethod) // ret.findOneInterfaceMethod,
+		findOneCodeMethod, ret.findOneInterfaceMethod, deleteCodeMethod)
 	typesCode, err := genTypes(table, strings.Join(modelutil.TrimStringSlice(list), pathx.NL), withCache)
 	if err != nil {
 		return "", err
@@ -335,7 +335,7 @@ func (g *defaultGenerator) genModel(in parser.Table, withCache bool) (string, er
 		updateCode:  updateCode,
 		deleteCode:  deleteCode,
 		tableName:   tableName,
-		//cacheExtra:  ret.cacheExtra,
+		cacheExtra:  ret.cacheExtra,
 	}
 
 	output, err := g.executeModel(table, code)
