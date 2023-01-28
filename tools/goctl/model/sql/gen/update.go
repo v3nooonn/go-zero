@@ -37,10 +37,10 @@ func genUpdate(table Table, withCache, postgreSql bool) (
 	keySet.AddStr(table.PrimaryCacheKey.DataKeyExpression)
 	keyVariableSet.AddStr(table.PrimaryCacheKey.KeyLeft)
 
-	//for _, key := range table.UniqueCacheKey {
-	//	keySet.AddStr(key.DataKeyExpression)
-	//	keyVariableSet.AddStr(key.KeyLeft)
-	//}
+	for _, key := range table.UniqueCacheKey {
+		keySet.AddStr(key.DataKeyExpression)
+		keyVariableSet.AddStr(key.KeyLeft)
+	}
 
 	keys := keySet.KeysStr()
 	sort.Strings(keys)

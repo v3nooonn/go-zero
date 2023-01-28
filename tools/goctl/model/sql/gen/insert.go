@@ -18,10 +18,10 @@ func genInsert(table Table, withCache, postgreSql bool) (string, string, error) 
 	keySet.AddStr(table.PrimaryCacheKey.DataKeyExpression)
 	keyVariableSet.AddStr(table.PrimaryCacheKey.KeyLeft)
 
-	//for _, key := range table.UniqueCacheKey {
-	//	keySet.AddStr(key.DataKeyExpression)
-	//	keyVariableSet.AddStr(key.KeyLeft)
-	//}
+	for _, key := range table.UniqueCacheKey {
+		keySet.AddStr(key.DataKeyExpression)
+		keyVariableSet.AddStr(key.KeyLeft)
+	}
 
 	keys := keySet.KeysStr()
 	sort.Strings(keys)
@@ -68,6 +68,7 @@ func genInsert(table Table, withCache, postgreSql bool) (string, string, error) 
 			"expressionValues":      strings.Join(expressionValues, ", "),
 			"keys":                  strings.Join(keys, "\n"),
 			"keyValues":             strings.Join(keyVars, ", "),
+			"keysList":              keyVars,
 			"data":                  table,
 		})
 	if err != nil {
