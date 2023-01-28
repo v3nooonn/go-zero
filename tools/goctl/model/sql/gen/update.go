@@ -41,7 +41,7 @@ func genUpdate(table Table, withCache, postgreSql bool) (
 	//	keySet.AddStr(key.DataKeyExpression)
 	//	keyVariableSet.AddStr(key.KeyLeft)
 	//}
-	
+
 	keys := keySet.KeysStr()
 	sort.Strings(keys)
 	keyVars := keyVariableSet.KeysStr()
@@ -68,6 +68,7 @@ func genUpdate(table Table, withCache, postgreSql bool) (
 			"withCache":             withCache,
 			"containsIndexCache":    table.ContainsUniqueCacheKey,
 			"upperStartCamelObject": camelTableName,
+			"keysList":              keyVars,
 			"keys":                  strings.Join(keys, "\n"),
 			"keyValues":             strings.Join(keyVars, ", "),
 			"primaryCacheKey":       table.PrimaryCacheKey.DataKeyExpression,
